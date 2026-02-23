@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@mui/icons-material": "^7.3.6",
+    "@mui/lab": "^7.0.1-beta.20",
+    "@mui/material": "^7.3.6",
+    "axios": "^1.13.2",
+    "leaflet": "^1.9.4",
+    "react-leaflet": "^5.0.0"
+  }
+}
