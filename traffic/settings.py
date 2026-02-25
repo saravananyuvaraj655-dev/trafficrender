@@ -5,19 +5,36 @@ Django settings for traffic project.
 from pathlib import Path
 import os
 
+# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ================= SECURITY =================
-SECRET_KEY = 'django-insecure-%veo95=p$j$o)fun(&fmo+6#qzsqq^s1&h&1eeu2mqb$n^fy!k'
+# ==============================
+# SECURITY
+# ==============================
 
-DEBUG = True
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "django-insecure-dev-key-change-in-render"
+)
 
-ALLOWED_HOSTS = ["*"]
+DEBUG = False
 
-# ================= CORS =================
+ALLOWED_HOSTS = [
+    "trafficrender-1.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
+# ==============================
+# CORS
+# ==============================
+
 CORS_ALLOW_ALL_ORIGINS = True
 
-# ================= APPS =================
+# ==============================
+# APPLICATIONS
+# ==============================
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -34,14 +51,14 @@ INSTALLED_APPS = [
     'predict',
 ]
 
-# ================= MIDDLEWARE =================
+# ==============================
+# MIDDLEWARE
+# ==============================
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-
-    # WhiteNoise (for Render static files)
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # IMPORTANT
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -52,10 +69,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'traffic.urls'
 
-# ================= WEATHER API =================
-OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
+# ==============================
+# TEMPLATES
+# ==============================
 
-# ================= TEMPLATES =================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -73,7 +90,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'traffic.wsgi.application'
 
-# ================= DATABASE =================
+# ==============================
+# DATABASE (SQLite for now)
+# ==============================
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -81,7 +101,10 @@ DATABASES = {
     }
 }
 
-# ================= PASSWORDS =================
+# ==============================
+# PASSWORD VALIDATION
+# ==============================
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -97,18 +120,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# ================= LANGUAGE =================
+# ==============================
+# INTERNATIONALIZATION
+# ==============================
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ================= STATIC FILES (RENDER IMPORTANT) =================
-STATIC_URL = 'static/'
+# ==============================
+# STATIC FILES (VERY IMPORTANT)
+# ==============================
+
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# WhiteNoise storage
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# ==============================
+# DEFAULT AUTO FIELD
+# ==============================
 
-# ================= DEFAULT =================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ==============================
+# API KEYS (Environment Variables)
+# ==============================
+
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
